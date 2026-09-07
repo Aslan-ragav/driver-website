@@ -1,0 +1,1079 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Professional Personal Driver Service | Chennai</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#07090b;
+    color:#ffffff;
+    overflow-x:hidden;
+}
+
+.container{
+    width:90%;
+    max-width:1150px;
+    margin:auto;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:40px 20px;
+
+    background:
+    radial-gradient(
+        circle at center,
+        #263747 0%,
+        #111a22 40%,
+        #07090b 75%
+    );
+}
+
+.hero-content{
+
+    width:100%;
+    max-width:900px;
+}
+
+.car-icon{
+
+    font-size:
+    clamp(65px,12vw,120px);
+
+    margin-bottom:20px;
+
+    animation:
+    carMove 2.5s ease-in-out infinite;
+}
+
+@keyframes carMove{
+
+    0%,100%{
+        transform:translateX(-8px);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+}
+
+.hero h1{
+
+    font-size:
+    clamp(38px,7vw,72px);
+
+    line-height:1.15;
+
+    margin-bottom:20px;
+
+    letter-spacing:-1px;
+}
+
+.hero h1 span{
+
+    color:#42a5f5;
+}
+
+.hero h2{
+
+    font-size:
+    clamp(19px,3vw,30px);
+
+    color:#90caf9;
+
+    line-height:1.5;
+
+    font-weight:normal;
+}
+
+.hero-description{
+
+    max-width:700px;
+
+    margin:25px auto 0;
+
+    font-size:
+    clamp(16px,2.3vw,20px);
+
+    color:#d0d5d9;
+
+    line-height:1.8;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons{
+
+    margin-top:35px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+.btn{
+
+    display:inline-block;
+
+    padding:15px 30px;
+
+    border-radius:50px;
+
+    text-decoration:none;
+
+    color:#ffffff;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+    min-width:180px;
+}
+
+.call{
+
+    background:#1976d2;
+}
+
+.whatsapp{
+
+    background:#20b957;
+}
+
+.btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 12px 30px rgba(0,0,0,.5);
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+section{
+
+    padding:
+    clamp(60px,8vw,95px)
+    20px;
+}
+
+.section-title{
+
+    text-align:center;
+
+    font-size:
+    clamp(30px,5vw,45px);
+
+    margin-bottom:45px;
+
+    color:#64b5f6;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about{
+
+    background:#10161b;
+
+    text-align:center;
+}
+
+.about-text{
+
+    max-width:850px;
+
+    margin:auto;
+
+    font-size:
+    clamp(16px,2.2vw,19px);
+
+    color:#d5d5d5;
+
+    line-height:2;
+}
+
+.highlight{
+
+    color:#64b5f6;
+
+    font-weight:bold;
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+.services{
+
+    background:#07090b;
+}
+
+.service-grid{
+
+    width:100%;
+
+    max-width:1100px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:22px;
+}
+
+.service-card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #18232c,
+        #0d1216
+    );
+
+    border:
+    1px solid #263f50;
+
+    border-radius:22px;
+
+    padding:32px 22px;
+
+    text-align:center;
+
+    transition:.3s;
+}
+
+.service-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#64b5f6;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.55);
+}
+
+.service-icon{
+
+    font-size:52px;
+
+    margin-bottom:18px;
+}
+
+.service-card h3{
+
+    font-size:22px;
+
+    color:#90caf9;
+
+    margin-bottom:12px;
+}
+
+.service-card p{
+
+    font-size:16px;
+
+    color:#c7c7c7;
+
+    line-height:1.7;
+}
+
+
+/* =========================
+   IMPORTANT NOTE
+========================= */
+
+.note-section{
+
+    background:#0d1419;
+
+    text-align:center;
+}
+
+.note-box{
+
+    max-width:850px;
+
+    margin:auto;
+
+    padding:
+    clamp(30px,5vw,50px)
+    25px;
+
+    border-radius:25px;
+
+    border:
+    1px solid #31566d;
+
+    background:#111c23;
+}
+
+.note-box h3{
+
+    font-size:
+    clamp(23px,4vw,32px);
+
+    color:#64b5f6;
+
+    margin-bottom:18px;
+}
+
+.note-box p{
+
+    font-size:
+    clamp(16px,2.3vw,19px);
+
+    line-height:1.8;
+
+    color:#d0d0d0;
+}
+
+
+/* =========================
+   WHY CHOOSE ME
+========================= */
+
+.why{
+
+    background:#080b0e;
+}
+
+.why-grid{
+
+    max-width:900px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:18px;
+}
+
+.why-item{
+
+    background:#131a20;
+
+    padding:22px;
+
+    border-radius:15px;
+
+    border-left:
+    3px solid #42a5f5;
+
+    font-size:17px;
+
+    color:#dddddd;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+
+    background:
+    linear-gradient(
+        135deg,
+        #101c25,
+        #050708
+    );
+
+    text-align:center;
+}
+
+.contact-subtitle{
+
+    color:#c8c8c8;
+
+    font-size:18px;
+
+    margin-bottom:15px;
+}
+
+.phone{
+
+    display:inline-block;
+
+    color:#64b5f6;
+
+    font-size:
+    clamp(28px,5vw,45px);
+
+    font-weight:bold;
+
+    text-decoration:none;
+
+    margin:10px 0;
+}
+
+.location{
+
+    margin-top:15px;
+
+    color:#aaa;
+
+    font-size:17px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+
+    background:#020304;
+
+    text-align:center;
+
+    padding:30px 20px;
+
+    color:#777;
+
+    line-height:2;
+}
+
+footer strong{
+
+    color:#64b5f6;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:950px){
+
+    .service-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .hero{
+
+        min-height:100svh;
+
+        padding:
+        30px 15px;
+    }
+
+    .hero h1{
+
+        font-size:38px;
+    }
+
+    .buttons{
+
+        flex-direction:column;
+
+        width:100%;
+    }
+
+    .btn{
+
+        width:100%;
+
+        max-width:300px;
+    }
+
+    .service-grid{
+
+        grid-template-columns:1fr;
+
+        gap:17px;
+    }
+
+    .why-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .service-card{
+
+        padding:28px 18px;
+    }
+
+    section{
+
+        padding-left:15px;
+
+        padding-right:15px;
+    }
+
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media(max-width:360px){
+
+    .hero h1{
+
+        font-size:32px;
+    }
+
+    .hero h2{
+
+        font-size:17px;
+    }
+
+    .hero-description{
+
+        font-size:15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<header class="hero">
+
+<div class="hero-content">
+
+<div class="car-icon">
+🚗
+</div>
+
+<h1>
+
+Professional
+<span>Personal Driver</span>
+Service
+
+</h1>
+
+<h2>
+
+Safe Drive • Reliable Service • Your Car
+
+</h2>
+
+<p class="hero-description">
+
+Professional driver service in Chennai
+for your own car.
+
+Available for night club pickup & drop,
+Chennai local round trips and outstation trips.
+
+</p>
+
+
+<div class="buttons">
+
+<a
+href="tel:8925554002"
+class="btn call">
+
+📞 Call Now
+
+</a>
+
+
+<a
+href="https://wa.me/918925554002"
+class="btn whatsapp">
+
+💬 WhatsApp
+
+</a>
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section class="about">
+
+<div class="container">
+
+<h2 class="section-title">
+
+About My Service
+
+</h2>
+
+<p class="about-text">
+
+Need a driver for your own car?
+
+I provide reliable and responsible
+<strong class="highlight">
+personal driver services
+</strong>
+in Chennai.
+
+<br><br>
+
+You can book me for
+night-time pickup & drop,
+Chennai local round trips,
+and outstation journeys.
+
+<br><br>
+
+<strong class="highlight">
+You provide the car.
+I provide the driving.
+</strong>
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section class="services">
+
+<div class="container">
+
+<h2 class="section-title">
+
+My Services
+
+</h2>
+
+
+<div class="service-grid">
+
+
+<div class="service-card">
+
+<div class="service-icon">
+🌙
+</div>
+
+<h3>
+Night Club Pickup & Drop
+</h3>
+
+<p>
+
+Safe and responsible
+late-night driving service
+within Chennai.
+
+</p>
+
+</div>
+
+
+
+<div class="service-card">
+
+<div class="service-icon">
+🏙️
+</div>
+
+<h3>
+Chennai Local Round Trip
+</h3>
+
+<p>
+
+Driver service for local
+round trips within Chennai
+using your own car.
+
+</p>
+
+</div>
+
+
+
+<div class="service-card">
+
+<div class="service-icon">
+🛣️
+</div>
+
+<h3>
+Outstation Trips
+</h3>
+
+<p>
+
+Professional driving service
+for long-distance and
+outstation journeys.
+
+</p>
+
+</div>
+
+
+
+<div class="service-card">
+
+<div class="service-icon">
+👨‍👩‍👧
+</div>
+
+<h3>
+Family Trips
+</h3>
+
+<p>
+
+Reliable driver service
+for family travel and
+personal journeys.
+
+</p>
+
+</div>
+
+
+
+<div class="service-card">
+
+<div class="service-icon">
+🚘
+</div>
+
+<h3>
+Personal Driver
+</h3>
+
+<p>
+
+Book a personal driver
+for your own car based
+on your requirement.
+
+</p>
+
+</div>
+
+
+
+<div class="service-card">
+
+<div class="service-icon">
+🌃
+</div>
+
+<h3>
+Late Night Driving
+</h3>
+
+<p>
+
+Late-night driving service
+available in Chennai
+with prior booking.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     YOUR CAR
+========================= -->
+
+<section class="note-section">
+
+<div class="note-box">
+
+<h3>
+
+🚗 Your Car. My Driving.
+
+</h3>
+
+<p>
+
+I do not provide a rental car.
+
+You can book me as your
+personal driver and I will
+drive <strong>your own car</strong>
+safely and responsibly.
+
+<br><br>
+
+Perfect for night outings,
+club pickup & drop,
+local trips and outstation travel.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     WHY CHOOSE ME
+========================= -->
+
+<section class="why">
+
+<div class="container">
+
+<h2 class="section-title">
+
+Why Choose My Service?
+
+</h2>
+
+
+<div class="why-grid">
+
+
+<div class="why-item">
+
+✅ Professional & Responsible Driving
+
+</div>
+
+
+<div class="why-item">
+
+🛡️ Safety-Focused Service
+
+</div>
+
+
+<div class="why-item">
+
+🌙 Night Driving Available
+
+</div>
+
+
+<div class="why-item">
+
+🏙️ Chennai Local Trips
+
+</div>
+
+
+<div class="why-item">
+
+🛣️ Outstation Trips
+
+</div>
+
+
+<div class="why-item">
+
+📅 Prior Booking Available
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="contact">
+
+<div class="container">
+
+<h2 class="section-title">
+
+Book Your Driver
+
+</h2>
+
+<p class="contact-subtitle">
+
+For bookings and enquiries
+
+</p>
+
+
+<a
+href="tel:8925554002"
+class="phone">
+
+89255 54002
+
+</a>
+
+
+<p class="location">
+
+📍 Chennai, Tamil Nadu
+
+</p>
+
+
+<div class="buttons">
+
+<a
+href="tel:8925554002"
+class="btn call">
+
+📞 Call Now
+
+</a>
+
+
+<a
+href="https://wa.me/918925554002"
+class="btn whatsapp">
+
+💬 WhatsApp Me
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+<p>
+
+🚗
+<strong>
+Professional Personal Driver Service
+</strong>
+
+</p>
+
+<p>
+
+Safe Drive • Reliable Service • Your Car
+
+</p>
+
+<p>
+
+© 2026 All Rights Reserved
+
+</p>
+
+</footer>
+
+
+</body>
+
+</html>
+```
