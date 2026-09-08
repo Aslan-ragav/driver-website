@@ -1,263 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Chennai Night Ride - Pickup & Drop</title>
+<title>Chennai Driver Service | Your Car Our Driver</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<style>
 
-        body {
-            background: #0b0b0f;
-            color: white;
-            line-height: 1.6;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #11111a, #1d1025);
-        }
+html {
+    scroll-behavior: smooth;
+}
 
-        .container {
-            max-width: 700px;
-            width: 100%;
-        }
+body {
+    background: #08090d;
+    color: #ffffff;
+}
 
-        .hero-image {
-    width: 100%;
-    max-width: 650px;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 20px;
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 18px;
+    text-align: center;
+
+    background:
+    linear-gradient(rgba(5,6,10,0.70), rgba(5,6,10,0.90)),
+    url("driver-service.png");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 700px;
+    animation: fadeUp 1.2s ease;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(255,193,7,0.15);
+    border: 1px solid #ffc107;
+    color: #ffc107;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: 48px;
+    line-height: 1.15;
+    margin-bottom: 15px;
+}
+
+.yellow {
+    color: #ffc107;
+}
+
+.hero p {
+    font-size: 19px;
+    color: #dddddd;
+    margin-bottom: 28px;
+}
+
+.tagline {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 15px 26px;
+    border-radius: 35px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.call {
+    background: #ffc107;
+    color: #111111;
+}
+
+.whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+/* SERVICES */
+
+.services-section {
+    padding: 70px 20px;
+    text-align: center;
+    background: #0d0e13;
+}
+
+.section-title {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    color: #aaaaaa;
+    margin-bottom: 40px;
+}
+
+.services {
+    max-width: 1000px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: #15161c;
+    padding: 32px 20px;
+    border-radius: 18px;
+    border: 1px solid #262832;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    border-color: #ffc107;
+}
+
+.icon {
+    font-size: 45px;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    color: #ffc107;
+    margin-bottom: 12px;
+    font-size: 21px;
+}
+
+.card p {
+    color: #bbbbbb;
+    font-size: 15px;
+}
+
+/* DRIVER SECTION */
+
+.driver-section {
+    padding: 70px 20px;
+    text-align: center;
+    background: #08090d;
+}
+
+.driver-box {
+    max-width: 850px;
+    margin: auto;
+    padding: 45px 25px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #17181f, #0f1015);
+    border: 1px solid #292a31;
+}
+
+.driver-box h2 {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.driver-box p {
+    color: #bbbbbb;
+    font-size: 17px;
     margin-bottom: 25px;
 }
-            font-size: 70px;
-            margin-bottom: 15px;
-        }
 
-        h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
+/* CONTACT */
 
-        .highlight {
-            color: #ffcc00;
-        }
+.contact {
+    padding: 70px 20px;
+    text-align: center;
+    background: #101117;
+}
 
-        .subtitle {
-            font-size: 19px;
-            color: #cccccc;
-            margin-bottom: 30px;
-        }
+.contact h2 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
 
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+.contact p {
+    color: #aaaaaa;
+}
 
-        .btn {
-            text-decoration: none;
-            padding: 14px 25px;
-            border-radius: 30px;
-            font-size: 17px;
-            font-weight: bold;
-            display: inline-block;
-        }
+.phone {
+    display: block;
+    margin: 20px 0 25px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffc107;
+}
 
-        .call {
-            background: #ffcc00;
-            color: #111;
-        }
+/* FOOTER */
 
-        .whatsapp {
-            background: #25D366;
-            color: white;
-        }
+footer {
+    text-align: center;
+    padding: 22px 15px;
+    background: #050609;
+    color: #777777;
+    font-size: 13px;
+}
 
-        section {
-            padding: 50px 20px;
-            text-align: center;
-        }
+/* ANIMATION */
 
-        section h2 {
-            font-size: 30px;
-            margin-bottom: 30px;
-        }
+@keyframes fadeUp {
 
-        .services {
-            max-width: 900px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
 
-        .card {
-            background: #17171f;
-            padding: 30px 20px;
-            border-radius: 18px;
-            border: 1px solid #292934;
-        }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-        .card-icon {
-            font-size: 45px;
-            margin-bottom: 15px;
-        }
+}
 
-        .card h3 {
-            margin-bottom: 10px;
-            color: #ffcc00;
-        }
+/* MOBILE */
 
-        .card p {
-            color: #bbbbbb;
-        }
+@media (max-width: 700px) {
 
-        .contact {
-            background: #111118;
-        }
+    h1 {
+        font-size: 36px;
+    }
 
-        .phone {
-            font-size: 28px;
-            font-weight: bold;
-            color: #ffcc00;
-            margin: 15px 0 25px;
-        }
+    .hero {
+        min-height: 90vh;
+    }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #08080c;
-            color: #888;
-            font-size: 14px;
-        }
+    .hero p {
+        font-size: 17px;
+    }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 32px;
-            }
+    .services {
+        grid-template-columns: 1fr;
+    }
 
-            .subtitle {
-                font-size: 17px;
-            }
+    .section-title {
+        font-size: 29px;
+    }
 
-            .phone {
-                font-size: 24px;
-            }
-        }
-    </style>
+    .driver-box h2 {
+        font-size: 28px;
+    }
+
+    .phone {
+        font-size: 25px;
+    }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-    <div class="hero">
-        <div class="container">
 
-            <img src="driver-service.png" alt="Chennai Night Ride" class="hero-image">
+<!-- HERO -->
 
-            <h1>
-                Chennai <span class="highlight">Night Ride</span>
-            </h1>
+<section class="hero">
 
-            <p class="subtitle">
-                Safe & Reliable Night Club Pickup and Drop Service
-            </p>
+<div class="hero-content">
 
-            <div class="buttons">
-                <a class="btn call" href="tel:+918925554002">
-                    📞 Call Now
-                </a>
+<div class="badge">
+CHENNAI DRIVER SERVICE
+</div>
 
-                <a class="btn whatsapp"
-                   href="https://wa.me/918925554002"
-                   target="_blank">
-                    💬 WhatsApp
-                </a>
-            </div>
+<h1>
+Your Car.<br>
+<span class="yellow">Our Driver.</span>
+</h1>
 
-        </div>
-    </div>
+<div class="tagline">
+Safe & Reliable Driving Service
+</div>
 
+<p>
+Night Club Pickup & Drop • Chennai Round Trip • Outstation Trips
+</p>
 
-    <section>
-        <h2>Our Services</h2>
+<div class="buttons">
 
-        <div class="services">
+<a href="tel:+918925554002" class="btn call">
+📞 Call Now
+</a>
 
-            <div class="card">
-                <div class="card-icon">🌙</div>
-                <h3>Night Club Pickup & Drop</h3>
-                <p>
-                    Safe pickup and drop service for Chennai night club trips.
-                </p>
-            </div>
+<a href="https://wa.me/918925554002" target="_blank" class="btn whatsapp">
+💬 WhatsApp
+</a>
 
-            <div class="card">
-                <div class="card-icon">🔄</div>
-                <h3>Chennai Round Trip</h3>
-                <p>
-                    Comfortable round trip driving service within Chennai.
-                </p>
-            </div>
+</div>
 
-            <div class="card">
-                <div class="card-icon">🛣️</div>
-                <h3>Outstation Trips</h3>
-                <p>
-                    Driver service available for outstation round trips.
-                </p>
-            </div>
+</div>
 
-        </div>
-    </section>
+</section>
 
 
-    <section class="contact">
+<!-- SERVICES -->
 
-        <h2>Book Your Ride</h2>
+<section class="services-section">
 
-        <p>
-            Need a safe driver for your night ride?
-        </p>
+<h2 class="section-title">
+Our Services
+</h2>
 
-        <div class="phone">
-            📞 8925554002
-        </div>
-
-        <div class="buttons">
-
-            <a class="btn call" href="tel:+918925554002">
-                Call Now
-            </a>
-
-            <a class="btn whatsapp"
-               href="https://wa.me/918925554002"
-               target="_blank">
-                WhatsApp Now
-            </a>
-
-        </div>
-
-    </section>
+<p class="section-subtitle">
+Professional driver service for your own car
+</p>
 
 
-    <footer>
-        © 2026 Chennai Night Ride. All Rights Reserved.
-    </footer>
+<div class="services">
+
+
+<div class="card">
+
+<div class="icon">🌙</div>
+
+<h3>
+Night Club Pickup & Drop
+</h3>
+
+<p>
+Enjoy your night without worrying about driving. We drive your car safely and get you home.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🔄</div>
+
+<h3>
+Chennai Round Trip
+</h3>
+
+<p>
+Driver service for local Chennai round trips, events, functions and personal travel.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🛣️</div>
+
+<h3>
+Outstation Trips
+</h3>
+
+<p>
+Planning an outstation trip? Book a driver to drive your own car safely.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- DRIVER SECTION -->
+
+<section class="driver-section">
+
+<div class="driver-box">
+
+<h2>
+🚗 You Provide The Car
+</h2>
+
+<p>
+We provide the driver.  
+No rental car. No taxi. Just a professional driver for your own vehicle.
+</p>
+
+<a href="tel:+918925554002" class="btn call">
+Book Your Driver
+</a>
+
+</div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section class="contact">
+
+<h2>
+Need a Driver?
+</h2>
+
+<p>
+Call or WhatsApp us to book your ride.
+</p>
+
+<div class="phone">
+8925554002
+</div>
+
+<div class="buttons">
+
+<a href="tel:+918925554002" class="btn call">
+📞 Call Now
+</a>
+
+<a href="https://wa.me/918925554002" target="_blank" class="btn whatsapp">
+💬 WhatsApp Now
+</a>
+
+</div>
+
+</section>
+
+
+<footer>
+
+© 2026 Chennai Driver Service  
+<br>
+Your Car • Our Driver
+
+</footer>
+
 
 </body>
 </html>
