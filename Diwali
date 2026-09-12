@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ta" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diwali Firecrackers Simulator - தீபாவளி பட்டாசு கொண்டாட்டம்</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', 'Mukta', sans-serif;
+            user-select: none;
+            overflow-x: hidden;
+            background-color: #080313;
+        }
+        canvas {
+            touch-action: none;
+        }
+        /* Custom Glowing & Gradient Utilities */
+        .gold-glow {
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 140, 0, 0.5);
+        }
+        .diya-flame {
+            background: radial-gradient(circle, #fff 10%, #ff0 40%, #f00 80%, transparent);
+            box-shadow: 0 0 20px #ff9900, 0 0 35px #ff4500;
+            animation: flicker 0.15s infinite alternate ease-in-out;
+        }
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-1deg); opacity: 0.9; }
+            100% { transform: scale(1.1) rotate(1deg); opacity: 1; }
+        }
+        .cracker-card {
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(145deg, rgba(30, 20, 50, 0.85), rgba(15, 10, 30, 0.95));
+            border: 1px solid rgba(255, 215, 0, 0.25);
+        }
+        .cracker-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 10px 25px -5px rgba(255, 165, 0, 0.4);
+        }
+        .cracker-card:active {
+            transform: scale(0.96);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 10, 30, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col justify-between relative select-none">
+
+    <canvas id="fireworksCanvas" class="fixed inset-0 w-full h-full z-0 pointer-events-auto cursor-crosshair"></canvas>
+
+    <!-- Top Header & Festive Banner -->
+    <header class="relative z-10 w-full p-3 md:p-4 bg-black/40 backdrop-blur-md border-b border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
+        <div class="flex items-center gap-3">
+            <div class="relative w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
+                <div class="absolute bottom-0 w-8 h-4 bg-amber-700 rounded-b-full border border-amber-400"></div>
+                <div class="diya-flame absolute -top-2 w-3 h-5 rounded-full"></div>
+            </div>
+            <div>
+                <h1 class="text-xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-400 to-red-500 gold-glow leading-tight">
+                    இனிய தீபாவளி நல்வாழ்த்துக்கள்!
+                </h1>
+                <p class="text-xs md:text-sm text-amber-200/80 font-medium">Happy Diwali Firecracker Simulator</p>
+            </div>
+        </div>
+
+        <!-- Controls Header Options -->
+        <div class="flex items-center gap-2 md:gap-4">
+            <!-- Sound Toggle Button -->
+            <button id="soundToggleBtn" class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-amber-900/40 hover:bg-amber-800/60 border border-amber-500/50 rounded-full text-xs md:text-sm font-semibold transition-all shadow-lg active:scale-95">
+                <i id="soundIcon" class="fas fa-volume-up text-amber-400"></i>
+                <span id="soundText" class="hidden sm:inline">Sound: ON</span>
+            </button>
+
+            <!-- Language Switcher -->
+            <button id="langToggleBtn" class="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-purple-900/40 hover:bg-purple-800/60 border border-purple-500/50 rounded-full text-xs md:text-sm font-semibold transition-all shadow-lg active:scale-95">
+                <i class="fas fa-language text-purple-300"></i>
+                <span id="langText">தமிழ் / Eng</span>
+            </button>
+
+            <!-- Auto Celebration Show Toggle -->
+            <button id="autoShowBtn" class="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 border border-red-400 rounded-full text-xs md:text-sm font-bold shadow-lg shadow-red-900/40 transition-all active:scale-95 animate-pulse">
+                <i class="fas fa-magic"></i>
+                <span id="autoShowText">Auto Show</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 flex-grow flex flex-col justify-between p-4 pointer-events-none">
+        <!-- Center instruction overlay -->
+        <div id="skyPrompt" class="text-center mt-6 transition-opacity duration-1000 opacity-90">
+            <span class="inline-block px-4 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-amber-400/30 text-xs md:text-sm text-amber-200 shadow-xl">
+                <i class="fas fa-hand-pointer text-amber-400 mr-1.5 animate-bounce"></i> 
+                <span id="promptText">Click anywhere on the sky to launch current cracker!</span>
+            </span>
+        </div>
+
+        <!-- Floating Diyas Bottom Canvas Layer Visual Accent -->
+        <div class="w-full flex justify-between px-6 mb-2 pointer-events-none opacity-80">
+            <div class="relative w-7 h-7">
+                <div class="absolute bottom-0 w-7 h-3.5 bg-amber-800 rounded-b-full border border-amber-500"></div>
+                <div class="diya-flame absolute -top-1.5 left-2 w-3 h-4 rounded-full"></div>
+            </div>
+            <div class="relative w-7 h-7 hidden sm:block">
+                <div class="absolute bottom-0 w-7 h-3.5 bg-amber-800 rounded-b-full border border-amber-500"></div>
+                <div class="diya-flame absolute -top-1.5 left-2 w-3 h-4 rounded-full"></div>
+            </div>
+            <div class="relative w-7 h-7">
+                <div class="absolute bottom-0 w-7 h-3.5 bg-amber-800 rounded-b-full border border-amber-500"></div>
+                <div class="diya-flame absolute -top-1.5 left-2 w-3 h-4 rounded-full"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="relative z-20 w-full p-3 md:p-5 bg-black/70 backdrop-blur-lg border-t border-amber-500/30 shadow-2xl">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center justify-between mb-2">
+                <h2 id="selectTitle" class="text-xs md:text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
+                    <i class="fas fa-fire text-amber-500"></i> Select Firecracker / பட்டாசைத் தேர்ந்தெடுக்கவும்:
+                </h2>
+                <span id="activeCrackerBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                    Selected: Rocket
+                </span>
+            </div>
+
+            <!-- Cracker Selection Cards Grid -->
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 md:gap-3">
+
+                <!-- 1. Rocket -->
+                <button data-type="rocket" class="cracker-card active-card p-2 md:p-3 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer border-2 border-amber-400">
+                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-2xl text-red-400 mb-1">
+                        🚀
+                    </div>
+                    <span class="cracker-name font-bold text-xs md:text-sm text-yellow-300">Rocket</span>
+                    <span class="cracker-ta text-[10px] md:text-xs text-slate-300">ராக்கெட்</span>
+                </button>
+
+                <!-- 2. Flower Pot -->
+                <button data-type="flowerpot" class="cracker-card p-2 md:p-3 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer">
+                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-2xl text-amber-400 mb-1">
+                        🏺
+                    </div>
+                    <span class="cracker-name font-bold text-xs md:text-sm text-yellow-300">Flower Pot</span>
+                    <span class="cracker-ta text-[10px] md:text-xs text-slate-300">பூத்தொட்டி</span>
+                </button>
+
+                <!-- 3. Ground Chakkar -->
+                <button data-type="chakkar" class="cracker-card p-2 md:p-3 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer">
+                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-2xl text-yellow-400 mb-1">
+                        🍥
+                    </div>
+                    <span class="cracker-name font-bold text-xs md:text-sm text-yellow-300">Chakkar</span>
+                    <span class="cracker-ta text-[10px] md:text-xs text-slate-300">தரை சக்கரம்</span>
+                </button>
+
+                <!-- 4. Sparklers -->
+                <button data-type="sparkler" class="cracker-card p-2 md:p-3 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer">
+                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-2xl text-cyan-300 mb-1">
+                        ✨
+                    </div>
+                    <span class="cracker-name font-bold text-xs md:text-sm text-yellow-300">Sparkler</span>
+                    <span class="cracker-ta text-[10px] md:text-xs text-slate-300">மத்தாப்பு</span>
+                </button>
+
+                <!-- 5. Laxmi Bomb -->
+                <button data-type="bomb" class="cracker-card p-2 md:p-3 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer">
+                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-2xl text-green-400 mb-1">
+                        💣
+                    </div>
+                    <span class="cracker-name font-bold text-xs md:text-sm text-yellow-300">Laxmi Bomb</span>
+                    <span class="cracker-ta text-[10px] md:text-xs text-slate-300">லட்சுமி வெடி</span>
+                </button>
+
+                <!-- 6. Garland Ladi -->
+                <button data-type="ladi" class="cracker-card p-2 md:p-3 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer">
+                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-2xl text-red-500 mb-1">
+                        🧨
+                    </div>
+                    <span class="cracker-name font-bold text-xs md:text-sm text-yellow-300">1000 Ladi</span>
+                    <span class="cracker-ta text-[10px] md:text-xs text-slate-300">சரவெடி</span>
+                </button>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ====================================================================
+           AUDIO SYNTHESIZER (Web Audio API - Realistic No-External-File Sounds)
+           ==================================================================== */
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            // Create white noise buffer for explosions and sizzles
+            createNoiseBuffer(duration = 1) {
+                const bufferSize = this.ctx.sampleRate * duration;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                return buffer;
+            }
+
+            // Rocket Launch Whistle
+            playWhistle() {
+                if (this.muted) return;
+                this.init();
+                
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(3500, this.ctx.currentTime + 0.8);
+                
+                gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.2, this.ctx.currentTime + 0.6);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.85);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.85);
+            }
+
+            // Big Explosion (Bomb / Rocket burst)
+            playExplosion(volume = 1, pitch = 1) {
+                if (this.muted) return;
+                this.init();
+
+                const now = this.ctx.currentTime;
+                
+                // Noise burst for thud
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = this.createNoiseBuffer(0.8);
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800 * pitch, now);
+                filter.frequency.exponentialRampToValueAtTime(40 * pitch, now + 0.7);
+
+                const gain = this.ctx.createGain();
+                gain.gain.setValueAtTime(0.8 * volume, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                noise.start(now);
+                noise.stop(now + 0.75);
+
+                // Sub bass thump
+                const subOsc = this.ctx.createOscillator();
+                const subGain = this.ctx.createGain();
+                subOsc.type = 'sine';
+                subOsc.frequency.setValueAtTime(150 * pitch, now);
+                subOsc.frequency.exponentialRampToValueAtTime(30, now + 0.4);
+
+                subGain.gain.setValueAtTime(0.9 * volume, now);
+                subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+                subOsc.connect(subGain);
+                subGain.connect(this.ctx.destination);
+
+                subOsc.start(now);
+                subOsc.stop(now + 0.4);
+            }
+
+            // Sizzle / Fountain sound (Flowerpot & Sparklers & Chakkars)
+            playFountainSizzle(duration = 2) {
+                if (this.muted) return;
+                this.init();
+
+                const now = this.ctx.currentTime;
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = this.createNoiseBuffer(duration);
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(2500, now);
+                filter.Q.setValueAtTime(3, now);
+
+                const gain = this.ctx.createGain();
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.25, now + 0.2);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                noise.start(now);
+                noise.stop(now + duration);
+            }
+
+            // Small Pop (Garland / Ladi string)
+            playPop() {
+                if (this.muted) return;
+                this.init();
+
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300 + Math.random() * 400, now);
+                osc.frequency.exponentialRampToValueAtTime(50, now + 0.08);
+
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.08);
+            }
+        }
+
+        const audioEngine = new SoundEngine();
+
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Color palettes for fireworks
+        const COLORS = [
+            '#ff3366', '#ff9900', '#ffff00', '#33cc33', 
+            '#00ffff', '#cc33ff', '#ff0033', '#ffffff', '#ffaa00'
+        ];
+
+        function getRandomColor() {
+            return COLORS[Math.floor(Math.random() * COLORS.length)];
+        }
+
+        // Particle Class
+        class Particle {
+            constructor(x, y, color, velocity, decay = 0.015, gravity = 0.06, friction = 0.98, spark = false) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.vx = velocity.x;
+                this.vy = velocity.y;
+                this.alpha = 1;
+                this.decay = decay + Math.random() * 0.01;
+                this.gravity = gravity;
+                this.friction = friction;
+                this.size = spark ? Math.random() * 2 + 1 : Math.random() * 3 + 1.5;
+                this.spark = spark;
+            }
+
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+
+            draw(ctx) {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = this.spark ? 8 : 4;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Active items lists
+        let particles = [];
+        let animations = [];
+
+
+        // 1. ROCKET CRACKER
+        class Rocket {
+            constructor(startX, startY, targetX, targetY) {
+                this.x = startX;
+                this.y = startY;
+                this.targetY = targetY;
+                this.targetX = targetX;
+                this.speed = 9;
+                const angle = Math.atan2(targetY - startY, targetX - startX);
+                this.vx = Math.cos(angle) * this.speed;
+                this.vy = Math.sin(angle) * this.speed;
+                this.color = getRandomColor();
+                this.alive = true;
+                
+                audioEngine.playWhistle();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Trail spark particles
+                for (let i = 0; i < 2; i++) {
+                    particles.push(new Particle(
+                        this.x, this.y, 
+                        '#ffaa00', 
+                        { x: (Math.random() - 0.5) * 1.5, y: Math.random() * 2 + 1 },
+                        0.05, 0.02, 0.95, true
+                    ));
+                }
+
+                // Check burst target reached
+                if (this.vy < 0 && this.y <= this.targetY) {
+                    this.explode();
+                    this.alive = false;
+                }
+            }
+
+            explode() {
+                audioEngine.playExplosion(1.0, 1.0);
+                const count = 100 + Math.floor(Math.random() * 50);
+                for (let i = 0; i < count; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 7 + 1;
+                    particles.push(new Particle(
+                        this.x, this.y,
+                        this.color,
+                        { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed },
+                        0.015, 0.05, 0.96
+                    ));
+                }
+            }
+
+            draw(ctx) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // 2. FLOWER POT (Poo Totti)
+        class FlowerPot {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.timer = 0;
+                this.maxDuration = 140; // frames (~2.3s)
+                this.alive = true;
+
+                audioEngine.playFountainSizzle(2.5);
+            }
+
+            update() {
+                this.timer++;
+                if (this.timer > this.maxDuration) {
+                    this.alive = false;
+                    return;
+                }
+
+                const progress = this.timer / this.maxDuration;
+                const intensity = progress < 0.2 ? progress * 5 : (1 - progress) * 1.2;
+                const sparkCount = Math.floor(8 + intensity * 12);
+
+                for (let i = 0; i < sparkCount; i++) {
+                    const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.7;
+                    const speed = Math.random() * (8 + intensity * 6) + 2;
+                    const colors = ['#ffffff', '#ffcc00', '#ff6600', '#ff3300', '#ffffaa'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+
+                    particles.push(new Particle(
+                        this.x + (Math.random() - 0.5) * 10,
+                        this.y,
+                        color,
+                        { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed },
+                        0.025, 0.18, 0.95, true
+                    ));
+                }
+            }
+
+            draw(ctx) {
+                // Draw Flowerpot base
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(this.x - 15, this.y);
+                ctx.lineTo(this.x + 15, this.y);
+                ctx.lineTo(this.x + 10, this.y - 25);
+                ctx.lineTo(this.x - 10, this.y - 25);
+                ctx.closePath();
+                ctx.fillStyle = '#b45309';
+                ctx.fill();
+                ctx.strokeStyle = '#f59e0b';
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // 3. GROUND CHAKKAR (Bhoomi Chakram)
+        class GroundChakkar {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.angle = 0;
+                this.timer = 0;
+                this.maxDuration = 150;
+                this.alive = true;
+
+                audioEngine.playFountainSizzle(2.5);
+            }
+
+            update() {
+                this.timer++;
+                this.angle += 0.35;
+
+                if (this.timer > this.maxDuration) {
+                    this.alive = false;
+                    return;
+                }
+
+                const numSparks = 6;
+                for (let i = 0; i < numSparks; i++) {
+                    const currentAngle = this.angle + (i * Math.PI * 2 / numSparks);
+                    const speed = 4 + Math.random() * 3;
+                    const colors = ['#00ffff', '#ff00ff', '#ffff00', '#ffffff', '#ff9900'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+
+                    particles.push(new Particle(
+                        this.x, this.y,
+                        color,
+                        { x: Math.cos(currentAngle) * speed, y: Math.sin(currentAngle) * speed },
+                        0.03, 0.01, 0.94, true
+                    ));
+                }
+            }
+
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.beginPath();
+                ctx.arc(0, 0, 12, 0, Math.PI * 2);
+                ctx.fillStyle = '#d97706';
+                ctx.fill();
+                ctx.strokeStyle = '#fef08a';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // 4. SPARKLER (Handheld Mathappu)
+        class Sparkler {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.timer = 0;
+                this.maxDuration = 100;
+                this.alive = true;
+
+                audioEngine.playFountainSizzle(1.8);
+            }
+
+            update() {
+                this.timer++;
+                if (this.timer > this.maxDuration) {
+                    this.alive = false;
+                    return;
+                }
+
+                for (let i = 0; i < 7; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 4 + 0.5;
+                    particles.push(new Particle(
+                        this.x, this.y,
+                        '#7dd3fc',
+                        { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed },
+                        0.04, 0.02, 0.92, true
+                    ));
+                }
+            }
+
+            draw(ctx) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + 20, this.y + 40);
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // 5. LAXMI BOMB / ATOM BOMB
+        class Bomb {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.fuseTimer = 40; // Fuse delay before bang
+                this.exploded = false;
+                this.alive = true;
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.fuseTimer--;
+                    // Fuse spark
+                    particles.push(new Particle(
+                        this.x, this.y - 12,
+                        '#ffcc00',
+                        { x: (Math.random() - 0.5) * 1.5, y: -Math.random() * 2 },
+                        0.08, 0, 0.9, true
+                    ));
+
+                    if (this.fuseTimer <= 0) {
+                        this.explode();
+                        this.exploded = true;
+                        this.alive = false;
+                    }
+                }
+            }
+
+            explode() {
+                audioEngine.playExplosion(1.4, 0.6); // Heavy thud
+                const count = 160;
+                for (let i = 0; i < count; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 10 + 2;
+                    const colors = ['#ef4444', '#f59e0b', '#22c55e', '#ffffff'];
+                    particles.push(new Particle(
+                        this.x, this.y,
+                        colors[Math.floor(Math.random() * colors.length)],
+                        { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed },
+                        0.02, 0.08, 0.95
+                    ));
+                }
+            }
+
+            draw(ctx) {
+                if (this.exploded) return;
+                ctx.save();
+                // Bomb Casing (Green Laxmi Bomb design)
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
+                ctx.fillStyle = '#15803d';
+                ctx.fill();
+                ctx.strokeStyle = '#86efac';
+                ctx.stroke();
+
+                // Fuse wire
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y - 10);
+                ctx.lineTo(this.x, this.y - 15);
+                ctx.strokeStyle = '#d97706';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // 6. GARLAND / LADI STRING CRACKERS
+        class LadiString {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.count = 20; // 20 sequential pops
+                this.currentIndex = 0;
+                this.timer = 0;
+                this.alive = true;
+            }
+
+            update() {
+                this.timer++;
+                if (this.timer % 4 === 0 && this.currentIndex < this.count) {
+                    this.pop(this.currentIndex);
+                    this.currentIndex++;
+                }
+
+                if (this.currentIndex >= this.count) {
+                    this.alive = false;
+                }
+            }
+
+            pop(index) {
+                audioEngine.playPop();
+                const offsetX = (index - this.count / 2) * 6;
+                const offsetY = (Math.random() - 0.5) * 10;
+                const popX = this.x + offsetX;
+                const popY = this.y + offsetY;
+
+                for (let i = 0; i < 15; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 4 + 1;
+                    particles.push(new Particle(
+                        popX, popY,
+                        '#ef4444',
+                        { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed },
+                        0.05, 0.04, 0.92, true
+                    ));
+                }
+            }
+
+            draw(ctx) {
+                if (this.currentIndex < this.count) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(this.x - 60, this.y);
+                    ctx.lineTo(this.x + 60, this.y);
+                    ctx.strokeStyle = '#b91c1c';
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+        }
+
+        let selectedCracker = 'rocket';
+        let isAutoShow = false;
+        let autoShowInterval = null;
+
+        // Interactive Ignition trigger
+        function igniteCracker(x, y) {
+            switch (selectedCracker) {
+                case 'rocket':
+                    const startX = x + (Math.random() - 0.5) * 40;
+                    animations.push(new Rocket(startX, canvas.height, x, y));
+                    break;
+                case 'flowerpot':
+                    animations.push(new FlowerPot(x, Math.max(y, canvas.height * 0.4)));
+                    break;
+                case 'chakkar':
+                    animations.push(new GroundChakkar(x, Math.max(y, canvas.height * 0.3)));
+                    break;
+                case 'sparkler':
+                    animations.push(new Sparkler(x, y));
+                    break;
+                case 'bomb':
+                    animations.push(new Bomb(x, Math.max(y, canvas.height * 0.3)));
+                    break;
+                case 'ladi':
+                    animations.push(new LadiString(x, Math.max(y, canvas.height * 0.3)));
+                    break;
+            }
+        }
+
+        // Canvas click/touch event listeners
+        canvas.addEventListener('pointerdown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            igniteCracker(x, y);
+        });
+
+        // Animation Loop
+        function animate() {
+            // Dark night sky trail effect
+            ctx.fillStyle = 'rgba(8, 3, 19, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Update & Draw Cracker Animations
+            for (let i = animations.length - 1; i >= 0; i--) {
+                const anim = animations[i];
+                anim.update();
+                anim.draw(ctx);
+                if (!anim.alive) {
+                    animations.splice(i, 1);
+                }
+            }
+
+            // Update & Draw Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw(ctx);
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = function() {
+            animate();
+        };
+
+        const crackerCards = document.querySelectorAll('.cracker-card');
+        const activeBadge = document.getElementById('activeCrackerBadge');
+
+        const crackerNames = {
+            rocket: { en: 'Rocket', ta: 'ராக்கெட்' },
+            flowerpot: { en: 'Flower Pot', ta: 'பூத்தொட்டி' },
+            chakkar: { en: 'Ground Chakkar', ta: 'தரை சக்கரம்' },
+            sparkler: { en: 'Sparkler', ta: 'மத்தாப்பு' },
+            bomb: { en: 'Laxmi Bomb', ta: 'லட்சுமி வெடி' },
+            ladi: { en: '1000 Ladi String', ta: 'சரவெடி' }
+        };
+
+        let currentLang = 'en';
+
+        crackerCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                crackerCards.forEach(c => {
+                    c.classList.remove('border-2', 'border-amber-400');
+                });
+                card.classList.add('border-2', 'border-amber-400');
+                selectedCracker = card.getAttribute('data-type');
+                
+                const nameObj = crackerNames[selectedCracker];
+                activeBadge.innerText = `Selected: ${nameObj.en} / ${nameObj.ta}`;
+            });
+        });
+
+        // Sound Toggle Button
+        const soundBtn = document.getElementById('soundToggleBtn');
+        const soundIcon = document.getElementById('soundIcon');
+        const soundText = document.getElementById('soundText');
+
+        soundBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            audioEngine.muted = !audioEngine.muted;
+            if (audioEngine.muted) {
+                soundIcon.className = 'fas fa-volume-mute text-red-400';
+                soundText.innerText = 'Sound: OFF';
+            } else {
+                audioEngine.init();
+                soundIcon.className = 'fas fa-volume-up text-amber-400';
+                soundText.innerText = 'Sound: ON';
+            }
+        });
+
+        // Language Switcher Toggle
+        const langBtn = document.getElementById('langToggleBtn');
+        const selectTitle = document.getElementById('selectTitle');
+        const promptText = document.getElementById('promptText');
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentLang = currentLang === 'en' ? 'ta' : 'en';
+
+            if (currentLang === 'ta') {
+                selectTitle.innerHTML = `<i class="fas fa-fire text-amber-500"></i> பட்டாசைத் தேர்ந்தெடுக்கவும்:`;
+                promptText.innerText = `வானத்தில் எங்கு வேணா கிளிக் செய்து பட்டாசு கொளுத்துங்கள்!`;
+            } else {
+                selectTitle.innerHTML = `<i class="fas fa-fire text-amber-500"></i> Select Firecracker / பட்டாசைத் தேர்ந்தெடுக்கவும்:`;
+                promptText.innerText = `Click anywhere on the sky to launch current cracker!`;
+            }
+        });
+
+        // Auto Show Toggle Button
+        const autoShowBtn = document.getElementById('autoShowBtn');
+        const autoShowText = document.getElementById('autoShowText');
+
+        autoShowBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isAutoShow = !isAutoShow;
+
+            if (isAutoShow) {
+                autoShowBtn.classList.add('ring-4', 'ring-amber-300');
+                autoShowText.innerText = 'Stop Show';
+                
+                autoShowInterval = setInterval(() => {
+                    const randomX = Math.random() * (canvas.width * 0.8) + (canvas.width * 0.1);
+                    const randomY = Math.random() * (canvas.height * 0.5) + (canvas.height * 0.1);
+                    const types = ['rocket', 'flowerpot', 'chakkar', 'bomb', 'sparkler', 'ladi'];
+                    const originalSelected = selectedCracker;
+                    selectedCracker = types[Math.floor(Math.random() * types.length)];
+                    igniteCracker(randomX, randomY);
+                    selectedCracker = originalSelected;
+                }, 700);
+            } else {
+                autoShowBtn.classList.remove('ring-4', 'ring-amber-300');
+                autoShowText.innerText = 'Auto Show';
+                clearInterval(autoShowInterval);
+            }
+        });
+    </script>
+</body>
+</html>
