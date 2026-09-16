@@ -7,6 +7,7 @@
 <title>Chennai Night Driver | Book Your Driver</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -23,6 +24,8 @@ body{
     color:#fff;
     overflow-x:hidden;
 }
+
+/* HEADER */
 
 header{
     position:fixed;
@@ -71,6 +74,7 @@ nav a:hover{
     text-align:center;
     padding:120px 20px 80px;
     overflow:hidden;
+
     background:
     linear-gradient(rgba(3,6,12,.60),rgba(3,6,12,.92)),
     url("car-night.png") center/cover no-repeat;
@@ -275,42 +279,243 @@ section{
     line-height:1.6;
 }
 
-/* BOOKING */
+/* =========================
+   BOOKING SECTION
+========================= */
 
 .booking{
     background:#05070b;
+    overflow:hidden;
 }
 
-.booking-box{
-    max-width:850px;
+/* CAR BOOKING STAGE */
+
+.car-booking-stage{
+    max-width:1050px;
     margin:auto;
-    padding:40px;
-    border-radius:20px;
-    background:linear-gradient(
-        145deg,
-        rgba(77,166,255,.08),
-        rgba(255,255,255,.025)
-    );
-    border:1px solid rgba(255,255,255,.09);
-    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    position:relative;
+    min-height:570px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.booking-box h3{
+/* CAR BACKGROUND */
+
+.booking-car{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:min(900px,95%);
+    height:500px;
+    border-radius:35px;
+
+    background:
+    linear-gradient(
+        rgba(3,6,12,.28),
+        rgba(3,6,12,.70)
+    ),
+    url("car-night.png") center/cover no-repeat;
+
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.7),
+        inset 0 0 80px rgba(0,0,0,.4);
+
+    overflow:hidden;
+}
+
+/* DARK CAR CABIN */
+
+.booking-car:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.80),
+            rgba(0,0,0,.20) 35%,
+            rgba(0,0,0,.20) 65%,
+            rgba(0,0,0,.80)
+        );
+}
+
+/* DOOR PANELS */
+
+.car-door{
+    position:absolute;
+    top:0;
+    width:50%;
+    height:100%;
+    z-index:5;
+    background:
+        linear-gradient(
+            145deg,
+            #111923,
+            #070a0f 70%
+        );
+    border:1px solid rgba(255,255,255,.08);
+    transition:
+        transform 1.15s cubic-bezier(.77,0,.18,1),
+        box-shadow 1s ease;
+}
+
+.car-door-left{
+    left:0;
+    transform-origin:left center;
+    border-radius:35px 0 0 35px;
+}
+
+.car-door-right{
+    right:0;
+    transform-origin:right center;
+    border-radius:0 35px 35px 0;
+}
+
+.car-door-left:before,
+.car-door-right:before{
+    content:"";
+    position:absolute;
+    top:50%;
+    width:70px;
+    height:10px;
+    border-radius:20px;
+    background:#242e39;
+    box-shadow:
+        0 0 15px rgba(77,166,255,.12);
+}
+
+.car-door-left:before{
+    right:30px;
+}
+
+.car-door-right:before{
+    left:30px;
+}
+
+/* DOOR OPEN */
+
+.car-booking-stage.open .car-door-left{
+    transform:perspective(1000px) rotateY(-70deg);
+    box-shadow:25px 0 50px rgba(0,0,0,.5);
+}
+
+.car-booking-stage.open .car-door-right{
+    transform:perspective(1000px) rotateY(70deg);
+    box-shadow:-25px 0 50px rgba(0,0,0,.5);
+}
+
+/* START CARD */
+
+.booking-start{
+    position:relative;
+    z-index:10;
     text-align:center;
-    font-size:28px;
-    margin-bottom:8px;
+    transition:
+        opacity .4s ease,
+        transform .6s ease;
+}
+
+.car-booking-stage.open .booking-start{
+    opacity:0;
+    transform:scale(.7);
+    pointer-events:none;
+}
+
+.booking-start-icon{
+    font-size:65px;
+    margin-bottom:20px;
+    filter:drop-shadow(0 8px 20px rgba(0,0,0,.6));
+}
+
+.booking-start h3{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.booking-start p{
+    color:#aeb7c3;
+    margin-bottom:25px;
+}
+
+.open-booking-btn{
+    padding:16px 30px;
+    border:1px solid rgba(77,166,255,.5);
+    border-radius:10px;
+    background:#1677ff;
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow:0 10px 35px rgba(22,119,255,.3);
+    transition:.3s;
+}
+
+.open-booking-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 15px 40px rgba(22,119,255,.5);
+}
+
+/* BOOKING PANEL */
+
+.booking-panel{
+    position:absolute;
+    z-index:8;
+    width:min(760px,90%);
+    max-height:92%;
+    overflow-y:auto;
+    padding:32px;
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10,16,25,.97),
+            rgba(4,7,12,.97)
+        );
+
+    border:1px solid rgba(77,166,255,.20);
+
+    box-shadow:
+        0 25px 90px rgba(0,0,0,.8),
+        0 0 50px rgba(77,166,255,.08);
+
+    opacity:0;
+    transform:translateY(40px) scale(.85);
+    pointer-events:none;
+
+    transition:
+        opacity .7s ease .45s,
+        transform .8s cubic-bezier(.2,.8,.2,1) .45s;
+}
+
+.car-booking-stage.open .booking-panel{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    pointer-events:auto;
+}
+
+.booking-panel h3{
+    text-align:center;
+    font-size:27px;
+    margin-bottom:7px;
 }
 
 .booking-subtitle{
     text-align:center;
     color:#929aa6;
-    margin-bottom:30px;
+    margin-bottom:25px;
+    font-size:14px;
 }
+
+/* FORM */
 
 .form-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:18px;
+    gap:16px;
 }
 
 .form-group{
@@ -325,27 +530,27 @@ section{
 .form-group label{
     font-size:13px;
     color:#cbd3dd;
-    margin-bottom:8px;
+    margin-bottom:7px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea{
     width:100%;
-    padding:14px;
+    padding:13px;
     border-radius:8px;
     border:1px solid rgba(255,255,255,.12);
     background:#0b1017;
     color:#fff;
     outline:none;
     font-size:14px;
+    transition:.2s;
 }
 
 .form-group input[type="date"],
 .form-group input[type="time"]{
     color-scheme:dark;
     cursor:pointer;
-    position:relative;
 }
 
 .form-group input[type="date"]::-webkit-calendar-picker-indicator,
@@ -355,25 +560,17 @@ section{
     cursor:pointer;
     width:20px;
     height:20px;
-    padding:2px;
-    border-radius:5px;
-}
-
-.form-group input[type="date"]:focus,
-.form-group input[type="time"]:focus{
-    border-color:#4da6ff;
-    box-shadow:0 0 0 3px rgba(77,166,255,.15);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus{
     border-color:#4da6ff;
-    box-shadow:0 0 0 2px rgba(77,166,255,.08);
+    box-shadow:0 0 0 3px rgba(77,166,255,.12);
 }
 
 .form-group textarea{
-    min-height:100px;
+    min-height:85px;
     resize:vertical;
 }
 
@@ -382,11 +579,131 @@ section{
     color:white;
 }
 
-/* LOCATION */
-.location-box{display:flex;flex-direction:column;gap:10px;}
-.location-note{color:#9ba4b1;font-size:13px;line-height:1.6;}
-.whatsapp-location{padding:12px 15px;border-radius:8px;border:1px solid rgba(37,211,102,.35);background:rgba(37,211,102,.08);color:#8ff0b2;font-size:13px;cursor:pointer;text-align:center;font-weight:bold;}
-.whatsapp-location:hover{background:rgba(37,211,102,.15);}
+/* FORM BUTTON */
+
+.booking-button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:0;
+    border-radius:9px;
+    background:#1677ff;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 8px 25px rgba(22,119,255,.25);
+    transition:.3s;
+}
+
+.booking-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 35px rgba(22,119,255,.45);
+}
+
+/* REVIEW */
+
+.booking-review{
+    display:none;
+}
+
+.booking-review.active{
+    display:block;
+}
+
+.booking-form-hidden{
+    display:none;
+}
+
+.review-title{
+    text-align:center;
+    margin-bottom:22px;
+}
+
+.review-title .review-icon{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.review-title h3{
+    margin-bottom:5px;
+}
+
+.review-title p{
+    color:#929aa6;
+    font-size:13px;
+}
+
+.review-details{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.review-item{
+    padding:13px;
+    border-radius:9px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.review-item.full{
+    grid-column:1/-1;
+}
+
+.review-label{
+    display:block;
+    color:#7f8a98;
+    font-size:11px;
+    margin-bottom:5px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.review-value{
+    color:#fff;
+    font-size:14px;
+    word-break:break-word;
+}
+
+.location-message{
+    padding:15px;
+    border-radius:10px;
+    background:rgba(37,211,102,.07);
+    border:1px solid rgba(37,211,102,.25);
+    color:#a5efbd;
+    font-size:13px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.review-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.back-button{
+    padding:14px;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.04);
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.whatsapp-booking-button{
+    padding:14px;
+    border-radius:8px;
+    border:1px solid rgba(37,211,102,.35);
+    background:#25D366;
+    color:#05250f;
+    cursor:pointer;
+    font-weight:bold;
+    box-shadow:0 8px 25px rgba(37,211,102,.18);
+}
 
 /* ABOUT */
 
@@ -406,9 +723,11 @@ section{
 .about-image{
     min-height:350px;
     border-radius:20px;
+
     background:
     linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.5)),
     url("car-night.png") center/cover no-repeat;
+
     border:1px solid rgba(255,255,255,.08);
 }
 
@@ -455,11 +774,14 @@ section{
     text-align:center;
     padding:50px 25px;
     border-radius:20px;
-    background:linear-gradient(
+
+    background:
+    linear-gradient(
         145deg,
         rgba(77,166,255,.08),
         rgba(255,255,255,.02)
     );
+
     border:1px solid rgba(255,255,255,.08);
 }
 
@@ -491,7 +813,7 @@ footer{
     border-top:1px solid rgba(255,255,255,.06);
 }
 
-/* WHATSAPP */
+/* FLOATING WHATSAPP */
 
 .whatsapp{
     position:fixed;
@@ -543,6 +865,18 @@ footer{
     .about-image{
         min-height:260px;
     }
+
+    .car-booking-stage{
+        min-height:620px;
+    }
+
+    .booking-car{
+        height:550px;
+    }
+
+    .booking-panel{
+        width:92%;
+    }
 }
 
 @media(max-width:550px){
@@ -588,8 +922,38 @@ footer{
         grid-column:auto;
     }
 
-    .booking-box{
-        padding:25px 18px;
+    .booking-panel{
+        padding:22px 16px;
+    }
+
+    .car-booking-stage{
+        min-height:690px;
+    }
+
+    .booking-car{
+        height:620px;
+        width:100%;
+        border-radius:25px;
+    }
+
+    .car-door-left{
+        border-radius:25px 0 0 25px;
+    }
+
+    .car-door-right{
+        border-radius:0 25px 25px 0;
+    }
+
+    .review-details{
+        grid-template-columns:1fr;
+    }
+
+    .review-item.full{
+        grid-column:auto;
+    }
+
+    .review-buttons{
+        grid-template-columns:1fr;
     }
 
     .section-title h2{
@@ -609,10 +973,15 @@ footer{
     }
 
 }
+
 </style>
 </head>
 
+
 <body>
+
+
+<!-- HEADER -->
 
 <header>
 
@@ -629,6 +998,8 @@ footer{
 
 </header>
 
+
+<!-- HERO -->
 
 <section class="hero" id="home">
 
@@ -654,8 +1025,9 @@ footer{
                 Book a Driver
             </a>
 
-            <a class="btn btn-secondary"
-               href="tel:+918925554002">
+            <a
+                class="btn btn-secondary"
+                href="tel:+918925554002">
                 Call Now
             </a>
 
@@ -668,6 +1040,8 @@ footer{
 </section>
 
 
+<!-- SERVICES -->
+
 <section class="services" id="services">
 
     <div class="section-title">
@@ -679,6 +1053,7 @@ footer{
         </p>
 
     </div>
+
 
     <div class="service-grid">
 
@@ -738,6 +1113,8 @@ footer{
 </section>
 
 
+<!-- BOOKING -->
+
 <section class="booking" id="booking">
 
     <div class="section-title">
@@ -745,185 +1122,389 @@ footer{
         <h2>Book Your Driver</h2>
 
         <p>
-            Fill in your trip details and send your booking request directly on WhatsApp. Share your exact location in the same chat.
+            Open the car door, fill your booking details and send your request on WhatsApp.
         </p>
 
     </div>
 
 
-    <div class="booking-box">
-
-        <h3>Driver Booking Form</h3>
-
-        <p class="booking-subtitle">
-            Please provide your travel details.
-        </p>
+    <div class="car-booking-stage" id="carBookingStage">
 
 
-        <form id="bookingForm">
+        <!-- CAR -->
 
-            <div class="form-grid">
+        <div class="booking-car">
 
-                <div class="form-group">
+            <div class="car-door car-door-left"></div>
 
-                    <label>Full Name *</label>
+            <div class="car-door car-door-right"></div>
 
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your name"
-                        required
-                    >
-
-                </div>
+        </div>
 
 
-                <div class="form-group">
+        <!-- START -->
 
-                    <label>Mobile Number *</label>
+        <div class="booking-start">
 
-                    <input
-                        type="tel"
-                        id="phone"
-                        placeholder="Enter mobile number"
-                        pattern="[0-9]{10}"
-                        maxlength="10"
-                        required
-                    >
+            <div class="booking-start-icon">
+                🚗
+            </div>
 
-                </div>
+            <h3>
+                Your Driver Is Ready
+            </h3>
 
+            <p>
+                Open the car door to start your booking.
+            </p>
 
-                <div class="form-group">
+            <button
+                type="button"
+                class="open-booking-btn"
+                onclick="openBooking()">
 
-                    <label>Booking Date *</label>
+                🚪 Open Door & Book
 
-                    <input
-                        type="date"
-                        id="date"
-                        required
-                    >
+            </button>
 
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>Pickup Time *</label>
-
-                    <input
-                        type="time"
-                        id="time"
-                        required
-                    >
-
-                </div>
+        </div>
 
 
-                <!-- PICKUP LOCATION -->
+        <!-- BOOKING PANEL -->
 
-                <div class="form-group full">
+        <div class="booking-panel">
 
-                    <label>Pickup Location / Area</label>
 
-                    <div class="location-box">
+            <!-- FORM -->
 
-                        <div class="location-input-wrap">
-                            <input type="text" id="pickup" placeholder="Enter area / landmark (optional)">
+            <div id="bookingFormContainer">
+
+                <h3>
+                    Driver Booking Form
+                </h3>
+
+                <p class="booking-subtitle">
+                    Please provide your travel details.
+                </p>
+
+
+                <form id="bookingForm">
+
+                    <div class="form-grid">
+
+
+                        <!-- NAME -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Full Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Enter your name"
+                                autocomplete="name"
+                                required
+                            >
+
                         </div>
-                        <button type="button" class="whatsapp-location" onclick="openLocationWhatsApp('pickup')">📍 Share Pickup Location on WhatsApp</button>
-                        <div class="location-note">
-                            Enter an area or landmark if you know it. For the exact pickup point, share your location in WhatsApp after sending the booking request.
+
+
+                        <!-- PHONE -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Mobile Number *
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                placeholder="Enter 10-digit mobile number"
+                                pattern="[0-9]{10}"
+                                maxlength="10"
+                                inputmode="numeric"
+                                required
+                            >
+
                         </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Booking Date *
+                            </label>
+
+                            <input
+                                type="date"
+                                id="date"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- TIME -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Pickup Time *
+                            </label>
+
+                            <input
+                                type="time"
+                                id="time"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- TRIP -->
+
+                        <div class="form-group full">
+
+                            <label>
+                                Trip Type *
+                            </label>
+
+                            <select
+                                id="trip"
+                                required>
+
+                                <option value="">
+                                    Select trip type
+                                </option>
+
+                                <option value="Night Pickup & Drop">
+                                    Night Pickup & Drop
+                                </option>
+
+                                <option value="Round Trip">
+                                    Round Trip
+                                </option>
+
+                                <option value="Outstation Trip">
+                                    Outstation Trip
+                                </option>
+
+                                <option value="Late Night Driver">
+                                    Late Night Driver
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ADDITIONAL -->
+
+                        <div class="form-group full">
+
+                            <label>
+                                Additional Requirements
+                            </label>
+
+                            <textarea
+                                id="message"
+                                placeholder="Any additional information..."
+                            ></textarea>
+
+                        </div>
+
+
                     </div>
 
-                    </div>
 
-                </div>
+                    <button
+                        type="submit"
+                        class="booking-button">
 
+                        Continue → Review Booking
 
-                <!-- DROP LOCATION -->
-
-                <div class="form-group full">
-
-                    <label>Drop Location / Area</label>
-
-                    <div class="location-box">
-
-                        <div class="location-input-wrap">
-                            <input type="text" id="drop" placeholder="Enter area / landmark (optional)">
-                        </div>
-                        <div class="location-note">
-                            You can share the exact drop location directly in the WhatsApp chat.
-                        </div>
-                    </div>
-
-                    </div>
-
-                </div>
+                    </button>
 
 
-                <div class="form-group full">
-
-                    <label>Trip Type *</label>
-
-                    <select id="trip" required>
-
-                        <option value="">Select trip type</option>
-
-                        <option value="Night Pickup & Drop">
-                            Night Pickup & Drop
-                        </option>
-
-                        <option value="Round Trip">
-                            Round Trip
-                        </option>
-
-                        <option value="Outstation Trip">
-                            Outstation Trip
-                        </option>
-
-                        <option value="Late Night Driver">
-                            Late Night Driver
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group full">
-
-                    <label>Additional Requirements</label>
-
-                    <textarea
-                        id="message"
-                        placeholder="Any additional information..."
-                    ></textarea>
-
-                </div>
+                </form>
 
             </div>
 
 
-            <button
-                type="submit"
-                class="booking-button">
-                ✓ Confirm Booking on WhatsApp
-            </button>
+            <!-- REVIEW -->
 
-        </form>
+            <div
+                class="booking-review"
+                id="bookingReview">
+
+
+                <div class="review-title">
+
+                    <div class="review-icon">
+                        📋
+                    </div>
+
+                    <h3>
+                        Review Your Booking
+                    </h3>
+
+                    <p>
+                        Please check your details before sending.
+                    </p>
+
+                </div>
+
+
+                <div class="review-details">
+
+
+                    <div class="review-item">
+
+                        <span class="review-label">
+                            Customer Name
+                        </span>
+
+                        <div
+                            class="review-value"
+                            id="reviewName">
+                        </div>
+
+                    </div>
+
+
+                    <div class="review-item">
+
+                        <span class="review-label">
+                            Mobile Number
+                        </span>
+
+                        <div
+                            class="review-value"
+                            id="reviewPhone">
+                        </div>
+
+                    </div>
+
+
+                    <div class="review-item">
+
+                        <span class="review-label">
+                            Booking Date
+                        </span>
+
+                        <div
+                            class="review-value"
+                            id="reviewDate">
+                        </div>
+
+                    </div>
+
+
+                    <div class="review-item">
+
+                        <span class="review-label">
+                            Pickup Time
+                        </span>
+
+                        <div
+                            class="review-value"
+                            id="reviewTime">
+                        </div>
+
+                    </div>
+
+
+                    <div class="review-item full">
+
+                        <span class="review-label">
+                            Trip Type
+                        </span>
+
+                        <div
+                            class="review-value"
+                            id="reviewTrip">
+                        </div>
+
+                    </div>
+
+
+                    <div class="review-item full">
+
+                        <span class="review-label">
+                            Additional Requirements
+                        </span>
+
+                        <div
+                            class="review-value"
+                            id="reviewMessage">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="location-message">
+
+                    📍 <strong>Pickup & Drop Location</strong><br>
+
+                    Your exact location will NOT be collected on this website.
+                    After WhatsApp opens, please share your pickup location
+                    and drop location directly in the same WhatsApp chat.
+
+                </div>
+
+
+                <div class="review-buttons">
+
+                    <button
+                        type="button"
+                        class="back-button"
+                        onclick="editBooking()">
+
+                        ← Edit Details
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="whatsapp-booking-button"
+                        onclick="sendBookingToWhatsApp()">
+
+                        💬 Send Booking on WhatsApp
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
 
     </div>
 
 </section>
 
 
+<!-- ABOUT -->
+
 <section class="about" id="about">
 
     <div class="about-box">
 
+
         <div class="about-image"></div>
+
 
         <div class="about-text">
 
@@ -937,12 +1518,17 @@ footer{
                 You use your own car and our driver takes care of the journey.
             </p>
 
+
             <ul class="points">
 
                 <li>Driver-only service</li>
+
                 <li>Chennai pickup & drop</li>
+
                 <li>Night travel support</li>
+
                 <li>Round trip driving</li>
+
                 <li>Outstation driving</li>
 
             </ul>
@@ -954,11 +1540,15 @@ footer{
 </section>
 
 
+<!-- CONTACT -->
+
 <section class="contact" id="contact">
 
     <div class="section-title">
 
-        <h2>Contact Us</h2>
+        <h2>
+            Contact Us
+        </h2>
 
         <p>
             Need a driver? Contact us directly.
@@ -969,29 +1559,40 @@ footer{
 
     <div class="contact-box">
 
-        <h2>Need a Driver Tonight?</h2>
+        <h2>
+            Need a Driver Tonight?
+        </h2>
 
         <p>
             Send your pickup location, drop location and required time.
         </p>
 
+
         <div class="phone">
             +91 89255 54002
         </div>
 
+
         <div class="buttons">
+
 
             <a
                 class="btn btn-primary"
                 href="https://wa.me/918925554002?text=Hi%2C%20I%20need%20a%20driver%20service">
+
                 WhatsApp Us
+
             </a>
+
 
             <a
                 class="btn btn-secondary"
                 href="tel:+918925554002">
+
                 Call Us
+
             </a>
+
 
         </div>
 
@@ -1000,6 +1601,8 @@ footer{
 </section>
 
 
+<!-- FOOTER -->
+
 <footer>
 
     © 2026 Chennai Night Driver. Professional Driver Service.
@@ -1007,48 +1610,64 @@ footer{
 </footer>
 
 
+<!-- FLOATING WHATSAPP -->
+
 <a
     class="whatsapp"
     href="https://wa.me/918925554002?text=Hi%2C%20I%20need%20a%20driver%20service"
     aria-label="WhatsApp">
 
-    <img src="whatsapp.png" alt="WhatsApp">
+    <img
+        src="whatsapp.png"
+        alt="WhatsApp">
 
 </a>
 
 
 <script>
 
-/* DATE */
+/* =========================
+   DATE
+========================= */
 
-const dateInput = document.getElementById("date");
+const dateInput =
+    document.getElementById("date");
 
-const today = new Date();
+const today =
+    new Date();
 
-const year = today.getFullYear();
+const year =
+    today.getFullYear();
 
 const month =
-    String(today.getMonth() + 1).padStart(2, "0");
+    String(today.getMonth() + 1)
+    .padStart(2, "0");
 
 const day =
-    String(today.getDate()).padStart(2, "0");
+    String(today.getDate())
+    .padStart(2, "0");
 
 dateInput.min =
     year + "-" + month + "-" + day;
 
 
-/* WHATSAPP LOCATION HELPER */
-function openLocationWhatsApp(type){
-    const whatsappNumber = "918925554002";
-    const text = type === "pickup"
-        ? "Hi, I am booking Chennai Night Driver. I will share my exact pickup location here."
-        : "Hi, I am booking Chennai Night Driver. I will share my exact drop location here.";
-    const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(text);
-    window.open(url, "_blank");
+/* =========================
+   OPEN CAR DOOR
+========================= */
+
+function openBooking(){
+
+    const stage =
+        document.getElementById("carBookingStage");
+
+    stage.classList.add("open");
+
 }
 
 
-/* BOOKING FORM */
+/* =========================
+   FORM SUBMIT → REVIEW
+========================= */
 
 document
 .getElementById("bookingForm")
@@ -1085,20 +1704,6 @@ document
             .value;
 
 
-        const pickup =
-            document
-            .getElementById("pickup")
-            .value
-            .trim();
-
-
-        const drop =
-            document
-            .getElementById("drop")
-            .value
-            .trim();
-
-
         const trip =
             document
             .getElementById("trip")
@@ -1112,16 +1717,12 @@ document
             .trim();
 
 
-        if(
-            !name ||
-            !phone ||
-            !date ||
-            !time ||
-            !trip
-        ){
+        /* PHONE VALIDATION */
+
+        if(!/^[0-9]{10}$/.test(phone)){
 
             alert(
-                "Please fill all required fields."
+                "Please enter a valid 10-digit mobile number."
             );
 
             return;
@@ -1129,55 +1730,208 @@ document
         }
 
 
-        const whatsappNumber =
-            "918925554002";
+        /* DATE FORMAT */
+
+        const dateParts =
+            date.split("-");
+
+        const formattedDate =
+            dateParts[2] +
+            "/" +
+            dateParts[1] +
+            "/" +
+            dateParts[0];
 
 
-        const whatsappMessage =
+        /* TIME FORMAT */
 
-`🚗 NEW DRIVER BOOKING
+        const timeParts =
+            time.split(":");
 
-👤 Customer Name: ${name}
+        let hours =
+            parseInt(timeParts[0]);
 
-📱 Customer Mobile: ${phone}
+        const minutes =
+            timeParts[1];
 
-📅 Booking Date: ${date}
+        const ampm =
+            hours >= 12
+            ? "PM"
+            : "AM";
 
-⏰ Pickup Time: ${time}
+        hours =
+            hours % 12 || 12;
 
-📍 Pickup Area / Landmark: ${pickup || "Not specified"}
-
-🏁 Drop Area / Landmark: ${drop || "Not specified"}
-
-📌 Exact Location: Please share pickup & drop location in this WhatsApp chat.
-
-🚘 Trip Type: ${trip}
-
-📝 Additional Requirements:
-${message || "None"}
-
-Please confirm availability and fare.`;
-
-
-        const whatsappURL =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            encodeURIComponent(
-                whatsappMessage
-            );
+        const formattedTime =
+            hours +
+            ":" +
+            minutes +
+            " " +
+            ampm;
 
 
-        window.open(
-            whatsappURL,
-            "_blank"
-        );
+        /* PUT DETAILS INTO REVIEW */
+
+        document
+        .getElementById("reviewName")
+        .textContent =
+            name;
+
+
+        document
+        .getElementById("reviewPhone")
+        .textContent =
+            phone;
+
+
+        document
+        .getElementById("reviewDate")
+        .textContent =
+            formattedDate;
+
+
+        document
+        .getElementById("reviewTime")
+        .textContent =
+            formattedTime;
+
+
+        document
+        .getElementById("reviewTrip")
+        .textContent =
+            trip;
+
+
+        document
+        .getElementById("reviewMessage")
+        .textContent =
+            message || "None";
+
+
+        /* SAVE FOR WHATSAPP */
+
+        window.bookingData = {
+
+            name:name,
+
+            phone:phone,
+
+            date:formattedDate,
+
+            time:formattedTime,
+
+            trip:trip,
+
+            message:message || "None"
+
+        };
+
+
+        /* SHOW REVIEW */
+
+        document
+        .getElementById("bookingFormContainer")
+        .classList.add("booking-form-hidden");
+
+
+        document
+        .getElementById("bookingReview")
+        .classList.add("active");
 
     }
 );
 
 
+/* =========================
+   EDIT BOOKING
+========================= */
+
+function editBooking(){
+
+    document
+    .getElementById("bookingReview")
+    .classList.remove("active");
+
+
+    document
+    .getElementById("bookingFormContainer")
+    .classList.remove("booking-form-hidden");
+
+}
+
+
+/* =========================
+   SEND TO WHATSAPP
+========================= */
+
+function sendBookingToWhatsApp(){
+
+    if(!window.bookingData){
+
+        alert(
+            "Please fill the booking details first."
+        );
+
+        return;
+
+    }
+
+
+    const data =
+        window.bookingData;
+
+
+    const whatsappNumber =
+        "918925554002";
+
+
+    const whatsappMessage =
+
+`🚗 CHENNAI NIGHT DRIVER
+━━━━━━━━━━━━━━━━━━━━
+
+📋 NEW DRIVER BOOKING
+
+👤 Customer Name: ${data.name}
+
+📱 Customer Mobile: ${data.phone}
+
+📅 Booking Date: ${data.date}
+
+⏰ Pickup Time: ${data.time}
+
+🚘 Trip Type: ${data.trip}
+
+📝 Additional Requirements:
+${data.message}
+
+📍 PICKUP & DROP LOCATION
+
+Please share your exact pickup location and drop location in this WhatsApp chat.
+
+━━━━━━━━━━━━━━━━━━━━
+
+Please confirm availability and fare.`;
+
+
+    const whatsappURL =
+        "https://wa.me/" +
+        whatsappNumber +
+        "?text=" +
+        encodeURIComponent(
+            whatsappMessage
+        );
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+}
+
 </script>
+
 
 </body>
 </html>
