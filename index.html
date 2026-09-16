@@ -1868,66 +1868,55 @@ function sendBookingToWhatsApp(){
 
     if(!window.bookingData){
 
-        alert(
-            "Please fill the booking details first."
-        );
+        alert("Please fill the booking details first.");
 
         return;
 
     }
 
+    const data = window.bookingData;
 
-    const data =
-        window.bookingData;
-
-
-    const whatsappNumber =
-        "918925554002";
-
+    const whatsappNumber = "918925554002";
 
     const whatsappMessage =
 
-`🚗 CHENNAI NIGHT DRIVER
+`CHENNAI NIGHT DRIVER
 ━━━━━━━━━━━━━━━━━━━━
 
-📋 NEW DRIVER BOOKING
+NEW DRIVER BOOKING
 
-👤 Customer Name: ${data.name}
+• Customer Name: ${data.name}
+• Customer Mobile: ${data.phone}
+• Booking Date: ${data.date}
+• Pickup Time: ${data.time}
+• Trip Type: ${data.trip}
 
-📱 Customer Mobile: ${data.phone}
-
-📅 Booking Date: ${data.date}
-
-⏰ Pickup Time: ${data.time}
-
-🚘 Trip Type: ${data.trip}
-
-📝 Additional Requirements:
+• Additional Requirements:
 ${data.message}
 
-📍 PICKUP & DROP LOCATION
+━━━━━━━━━━━━━━━━━━━━
 
-Please share your exact pickup location and drop location in this WhatsApp chat.
+PICKUP & DROP LOCATION
+
+Please share your exact pickup location and drop location
+in this WhatsApp chat.
 
 ━━━━━━━━━━━━━━━━━━━━
 
 Please confirm availability and fare.`;
 
-
     const whatsappURL =
         "https://wa.me/" +
         whatsappNumber +
         "?text=" +
-        encodeURIComponent(
-            whatsappMessage
-        );
-
+        encodeURIComponent(whatsappMessage);
 
     window.open(
         whatsappURL,
         "_blank"
     );
 
+}
 }
 
 </script>
